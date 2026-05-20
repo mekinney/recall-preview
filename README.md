@@ -1,4 +1,46 @@
-# Installing Recall
+# Recall
+
+Local search across your files. Runs entirely on your machine — no
+account, no cloud, no data leaves your computer.
+
+---
+
+## Which version do I want?
+
+Recall comes in two flavours. Both install the same way and work
+identically for keyword search. **Pro** additionally runs an
+AI ranking step (a cross-encoder reranker) on top of hybrid retrieval,
+which improves results for body-text searches ("find the doc where I
+mentioned the Q3 forecast") at the cost of about 25 seconds per query
+and ~600 MB more disk space.
+
+|                       | **Recall**                | **Recall Pro**             |
+| --------------------- | ------------------------- | -------------------------- |
+| Download size         | ~50 MB                    | ~500 MB                    |
+| On-disk footprint     | ~120 MB                   | ~720 MB                    |
+| Keyword search        | yes                       | yes                        |
+| Hybrid retrieval      | yes                       | yes                        |
+| AI body-text ranking  | —                         | yes (~25 s/query)          |
+| Recommended hardware  | any 64-bit Windows PC     | recent desktop / laptop CPU |
+
+If you're not sure, start with **Recall**. You can install Pro later
+straight over the top — it's the same product, just with the ranking
+feature turned on, and your index and configuration are preserved
+through the upgrade. Going back the other way works the same.
+
+## Getting an installer
+
+Distribution is still invite-based while Recall is in preview. Ask the
+maintainer for a download link and mention which version you want:
+
+- `recall-wui-setup-<version>.exe` — Recall (the standard build)
+- `recall-wui-pro-setup-<version>.exe` — Recall Pro
+
+The rest of this guide applies identically to both.
+
+---
+
+# Installing Recall on Windows
 
 This guide walks through installing **Recall** on Windows. Installation
 is a two-stage process:
@@ -23,8 +65,12 @@ is a two-stage process:
 
 ## 1. Run the installer
 
-You will receive a download link from the maintainer for
-`recall-wui-setup-<version>.exe`. Double-click the installer.
+Double-click the installer you were sent —
+`recall-wui-setup-<version>.exe` for Recall, or
+`recall-wui-pro-setup-<version>.exe` for Recall Pro. The walkthrough
+below shows screenshots for the standard build; the Pro installer
+looks identical apart from the title bar and an extra ~30 seconds at
+the end while it lays down the ranking model.
 
 Because Recall is not code-signed by a registered publisher, Windows
 SmartScreen shows **"Windows protected your PC"** the first time you
@@ -48,7 +94,9 @@ The Recall setup wizard opens at **Ready to Install**.
 
 ![Ready to Install](images/install/3ReadyToInstall.png)
 
-Click **Install**. Installation typically takes a few seconds.
+Click **Install**. Installation typically takes a few seconds for the
+standard build, or up to a minute for Pro (the extra time is the
+~600 MB of ranking-model assets being written to disk).
 
 ---
 
@@ -133,6 +181,22 @@ tools.
 
 ---
 
+## Switching between Recall and Recall Pro
+
+You can switch in either direction without uninstalling first — just
+run the other installer over your existing install. Your index
+database, configuration, and scan roots are all preserved.
+
+- **Regular → Pro:** the Pro installer adds the ranking-model assets
+  (~600 MB) to your existing install. Open **Settings → AI search
+  ranking** in the Recall app and turn the toggle on. Restart Recall
+  to apply.
+- **Pro → Regular:** the Regular installer removes the ranking-model
+  assets (~600 MB reclaimed). The AI search ranking toggle disappears
+  from Settings. No manual cleanup needed.
+
+---
+
 ## Uninstalling
 
 **Remove the extension from Claude:** open **Settings → Extensions**,
@@ -141,9 +205,10 @@ You can also flip the **Enabled** toggle off to disable Recall
 temporarily without removing it.
 
 **Remove the Recall app:** open **Settings → Apps → Installed apps**,
-find **recall**, and choose **Uninstall**. Your index database and
-configuration under `%LOCALAPPDATA%\recall\` are left in place — delete
-that folder manually if you also want to remove indexed data.
+find **recall** (or **recall Pro**), and choose **Uninstall**. Your
+index database and configuration under `%LOCALAPPDATA%\recall\` are
+left in place — delete that folder manually if you also want to
+remove indexed data.
 
 ---
 
@@ -162,3 +227,6 @@ that folder manually if you also want to remove indexed data.
 - **Claude doesn't seem to use Recall:** open **Settings → Extensions
   → Recall** and confirm the **Enabled** toggle is on and that
   **Requirements** shows *All requirements met*.
+- **(Pro) Search results look the same as Regular:** the AI ranking
+  step is opt-in. Open **Settings** in the Recall app, turn on
+  **AI search ranking**, and restart Recall to apply.
